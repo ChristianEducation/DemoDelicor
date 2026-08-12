@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+:root {
+  /* Superficies */
+  --cream: oklch(97.3% 0.014 75);
+  --paper: oklch(99.3% 0.004 90);
+  --ink: oklch(24% 0.03 30);
+  --muted: oklch(48% 0.025 30);
+  --line: oklch(89% 0.02 70);
+  --line-accent: oklch(82% 0.035 40);
+
+  /* Marca Delicor — coral cálido (isotipo corazón) + verde menta (franja de minuta) */
+  --coral: oklch(62% 0.19 27);
+  --coral-dark: oklch(53% 0.19 25);
+  --coral-soft: oklch(93.5% 0.045 27);
+  --pine: oklch(52% 0.1 165);
+  --pine-dark: oklch(40% 0.09 165);
+  --pine-soft: oklch(92.5% 0.045 165);
+  --amber: oklch(68% 0.15 65);
+  --amber-dark: oklch(52% 0.14 55);
+  --amber-soft: oklch(93% 0.06 75);
+  --ink-soft: oklch(93% 0.02 30);
+
+  --danger: oklch(55% 0.19 25);
+
+  --shadow-sm: 0 1px 2px oklch(24% 0.03 30 / 0.06), 0 6px 18px oklch(24% 0.03 30 / 0.06);
+  --shadow-lg: 0 20px 55px oklch(24% 0.03 30 / 0.18);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Manrope Variable", "Avenir Next", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+}
+
+h1, h2, h3, p {
+  margin-top: 0;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button, a, select {
+  touch-action: manipulation;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled), a, select:not(:disabled) {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--coral-soft);
+  color: var(--coral-dark);
+}
+
+.display-font {
+  font-family: "Fraunces Variable", "Manrope Variable", serif;
+  font-weight: 620;
+}
+
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid oklch(62% 0.19 27 / 0.45);
+  outline-offset: 3px;
+}
+
+.surface {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 1px 2px oklch(24% 0.03 30 / 0.04);
+}
+
+.btn-primary, .btn-secondary, .btn-quiet, .btn-danger {
+  display: inline-flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.62rem 1.05rem;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 750;
+  text-decoration: none;
+  transition: transform 140ms var(--ease-out), background-color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out), color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+}
+
+.btn-primary {
+  color: var(--paper);
+  background: var(--coral);
+  box-shadow: 0 6px 18px oklch(62% 0.19 27 / 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--coral-dark);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled),
+.btn-secondary:active:not(:disabled),
+.btn-quiet:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  background: oklch(75% 0.015 60);
+  box-shadow: none;
+  opacity: 0.72;
+}
+
+.btn-secondary {
+  color: var(--pine-dark);
+  border-color: var(--line);
+  background: var(--paper);
+}
+
+.btn-secondary:hover {
+  border-color: var(--line-accent);
+  background: var(--pine-soft);
+}
+
+.btn-quiet {
+  min-height: 40px;
+  color: var(--ink);
+  background: transparent;
+}
+
+.btn-quiet:hover {
+  background: var(--ink-soft);
+}
+
+.btn-danger {
+  color: var(--danger);
+  border-color: oklch(85% 0.065 29);
+  background: oklch(97% 0.022 29);
+}
+
+.field {
+  width: 100%;
+  min-height: 41px;
+  border-radius: 0.65rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.6rem 0.85rem;
+  transition: border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+}
+
+.field:hover:not(:disabled) {
+  border-color: var(--line-accent);
+}
+
+.field:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px oklch(62% 0.19 27 / 0.16);
+  outline: none;
+}
+
+.field:disabled {
+  color: oklch(60% 0.02 30);
+  background: oklch(94% 0.012 80);
+  cursor: not-allowed;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--pine-dark);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: var(--coral-soft);
+  color: var(--coral-dark);
+  padding: 0.32rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  background: var(--pine-soft);
+  color: var(--pine-dark);
+  padding: 0.28rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.badge-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  background: var(--amber-soft);
+  color: var(--amber-dark);
+  padding: 0.28rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.badge-neutral {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  background: oklch(94% 0.012 80);
+  color: var(--muted);
+  padding: 0.28rem 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.chip-veg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  background: var(--pine-soft);
+  color: var(--pine-dark);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.page-enter {
+  animation: page-in 460ms var(--ease-out) both;
+}
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
