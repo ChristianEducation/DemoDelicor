@@ -4,6 +4,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { House } from "lucide-react";
+import { AdminIntroModal } from "@/components/admin-intro-modal";
 import { Brand, DemoBadge } from "@/components/brand";
 import { colegios } from "@/data/delicor-data";
 import type { ColegioId } from "@/types";
@@ -74,6 +75,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <main id="contenido-principal" className="page-enter min-h-dvh px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto max-w-[80rem]">{children}</div>
       </main>
+      <AdminIntroModal />
     </div>
   );
 }

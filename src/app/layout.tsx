@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/fraunces";
 import "./globals.css";
+import { IntroModal } from "@/components/intro-modal";
 import { DemoProvider } from "@/store/demo-store";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Ir al contenido
         </a>
         <DemoProvider>{children}</DemoProvider>
+        <IntroModal />
       </body>
     </html>
   );

@@ -2,13 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, ArrowRight, Check, Clock3, Leaf, PartyPopper, ShoppingCart, Truck, X } from "lucide-react";
+import { AlertTriangle, ArrowRight, Check, Clock3, HelpCircle, Leaf, PartyPopper, ShoppingCart, Truck, X } from "lucide-react";
 import { FlowGuard } from "@/components/flow-guard";
+import { InfoTip } from "@/components/info-tip";
 import { MenuDayModal } from "@/components/menu-day-modal";
 import { PortalShell } from "@/components/portal-shell";
+import { Tour } from "@/components/tour";
 import { WeekStrip } from "@/components/week-strip";
 import { DEMO_TODAY, cursoLabel, estudiantes } from "@/data/delicor-data";
 import { semanasAgosto, todosLosDiasHabilesAgosto } from "@/data/menu-agosto";
+import { apoderadoTourSteps, infoTips } from "@/data/onboarding-content";
 import { formatCLP, formatLongDate, isBeforeCutoff } from "@/lib/format";
 import { computePurchasePreview } from "@/lib/pricing";
 import { deliveryKey } from "@/lib/operations";
@@ -33,6 +36,7 @@ export default function WeekPage() {
 
   const [modalDate, setModalDate] = useState<string | null>(null);
   const [showAusencia, setShowAusencia] = useState(false);
+  const [tourSignal, setTourSignal] = useState(0);
 
   const student = estudiantes.find((item) => item.id === selectedStudentId);
   const week = semanasAgosto[selectedWeekIndex];
@@ -96,11 +100,18 @@ export default function WeekPage() {
     <PortalShell step={2}>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_21rem]">
         <section>
-          <span className="eyebrow">{student.name} · {cursoLabel(student.colegioId, student.cursoId)}</span>
-          <h1 className="display-font mt-1.5 text-[1.55rem] font-bold leading-none tracking-[-0.02em] sm:text-[1.75rem]">Mi semana</h1>
-          <p className="mt-2 max-w-lg text-[var(--muted)]">Elige plato y postre para cada día que quieras comprar. Puedes seleccionar los días que necesites y pagar todo junto.</p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <span className="eyebrow">{student.name} · {cursoLabel(student.colegioId, student.cursoId)}</span>
+              <h1 className="display-font mt-1.5 text-[1.55rem] font-bold leading-none tracking-[-0.02em] sm:text-[1.75rem]">Mi semana</h1>
+              <p className="mt-2 max-w-lg text-[var(--muted)]">Elige plato y postre para cada día que quieras comprar. Puedes seleccionar los días que necesites y pagar todo junto.</p>
+            </div>
+            <button type="button" className="btn-quiet shrink-0 px-2.5 text-xs" onClick={() => setTourSignal((value) => value + 1)}>
+              <HelpCircle size={14} /> ¿Cómo funciona?
+            </button>
+          </div>
 
-          <div className="surface mt-5 rounded-2xl p-4">
+          <div className="surface mt-5 rounded-2xl p-4" data-tour="week-strip">
             <WeekStrip
               days={week.days}
               weekLabel={week.shortLabel}
@@ -121,7 +132,7 @@ export default function WeekPage() {
             <Legend swatchClass="bg-[var(--ink)]" label="Entregado" />
           </div>
 
-          <div className="surface mt-6 rounded-2xl p-4 sm:p-5">
+          <div className="surface mt-6 rounded-2xl p-4 sm:p-5" data-tour="day-list">
             {week.days.map((day) => (
               <DayRow key={day.date} day={day} state={stateForDate(day.date)} cartSelection={cart[day.date]} onOpen={() => openDay(day.date)} />
             ))}
@@ -152,6 +163,7 @@ export default function WeekPage() {
       )}
 
       {showAusencia && <AusenciaModal onClose={() => setShowAusencia(false)} />}
+      <Tour steps={apoderadoTourSteps} storageKey="delicor-tour-apoderado-seen" reopenSignal={tourSignal} />
     </PortalShell>
   );
 }
@@ -235,9 +247,12 @@ function CartSidebar({
   onPay: () => void;
 }) {
   return (
-    <aside className="rounded-2xl bg-[var(--ink)] p-5 text-[var(--paper)] shadow-[var(--shadow-lg)] lg:sticky lg:top-5">
+    <aside className="rounded-2xl bg-[var(--ink)] p-5 text-[var(--paper)] shadow-[var(--shadow-lg)] lg:sticky lg:top-5" data-tour="cart-sidebar">
       <p className="mb-3 flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.1em] text-[color:var(--paper)]/60">
         <ShoppingCart size={14} /> Carrito
+        <span className="ml-auto">
+          <InfoTip text={infoTips.fullMonthDiscount} label="Cómo funciona el descuento por mes completo" />
+        </span>
       </p>
       {cartDates.length === 0 ? (
         <p className="mb-0 text-sm text-[color:var(--paper)]/70">Aún no has agregado almuerzos.</p>

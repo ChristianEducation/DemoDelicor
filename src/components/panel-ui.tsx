@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { InfoTip } from "@/components/info-tip";
 
 export function PanelHeader({
   eyebrow,
@@ -29,12 +30,14 @@ export function MetricCard({
   icon: Icon,
   detail,
   tone = "neutral",
+  tip,
 }: {
   label: string;
   value: string | number;
   icon: LucideIcon;
   detail?: string;
   tone?: "neutral" | "success" | "warning" | "coral";
+  tip?: string;
 }) {
   const toneClasses: Record<string, string> = {
     neutral: "bg-[oklch(94%_0.012_80)] text-[var(--ink)]",
@@ -47,7 +50,10 @@ export function MetricCard({
       <span className={`mb-2 inline-grid size-8 shrink-0 place-items-center rounded-lg ${toneClasses[tone]}`}>
         <Icon size={16} />
       </span>
-      <p className="mb-0.5 truncate text-[0.62rem] font-extrabold uppercase tracking-[0.07em] text-[var(--muted)]">{label}</p>
+      <p className="mb-0.5 flex items-center gap-1 truncate text-[0.62rem] font-extrabold uppercase tracking-[0.07em] text-[var(--muted)]">
+        {label}
+        {tip && <InfoTip text={tip} label={`Qué cuenta ${label}`} />}
+      </p>
       <strong className="display-font block text-xl font-bold leading-none tabular-nums sm:text-2xl">{value}</strong>
       {detail && <p className="mb-0 mt-1 text-xs font-semibold text-[var(--muted)]">{detail}</p>}
     </article>

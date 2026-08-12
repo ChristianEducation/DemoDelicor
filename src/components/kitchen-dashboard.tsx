@@ -7,6 +7,7 @@ import {
   Check,
   ChefHat,
   Clock3,
+  HelpCircle,
   Leaf,
   Search,
   UserRoundCog,
@@ -14,12 +15,15 @@ import {
   UtensilsCrossed,
   X,
 } from "lucide-react";
+import { InfoTip } from "@/components/info-tip";
 import { MenuDayModal } from "@/components/menu-day-modal";
 import { PanelHeader, MetricCard, MetricRow } from "@/components/panel-ui";
 import { PanelShell } from "@/components/panel-shell";
+import { Tour } from "@/components/tour";
 import { WeekStrip } from "@/components/week-strip";
 import { DEMO_TODAY, colegios, cursoLabel, cursos, estudiantes, funcionariosHoy } from "@/data/delicor-data";
 import { semanasAgosto } from "@/data/menu-agosto";
+import { cocinaTourSteps, infoTips } from "@/data/onboarding-content";
 import { formatLongDate, formatSantiagoTime, initials, matchesSearch } from "@/lib/format";
 import { almuerzosForColegioDate, contarPlatosYPostres, paqueteParaEstudiante } from "@/lib/operations";
 import { useDemo } from "@/store/demo-store";
@@ -43,6 +47,7 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
   const [weekIndex, setWeekIndex] = useState(1);
   const [date, setDate] = useState(DEMO_TODAY);
   const [toast, setToast] = useState("");
+  const [tourSignal, setTourSignal] = useState(0);
 
   const week = semanasAgosto[weekIndex];
 
@@ -65,7 +70,7 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
             <button type="button" role="tab" aria-selected={tab === "preparacion"} className={`rounded-lg px-4 text-sm font-extrabold transition-colors ${tab === "preparacion" ? "bg-[var(--paper)] text-[var(--ink)] shadow-sm" : "text-[var(--muted)]"}`} onClick={() => setTab("preparacion")}>
               Preparación
             </button>
-            <button type="button" role="tab" aria-selected={tab === "entrega"} className={`rounded-lg px-4 text-sm font-extrabold transition-colors ${tab === "entrega" ? "bg-[var(--paper)] text-[var(--ink)] shadow-sm" : "text-[var(--muted)]"}`} onClick={() => setTab("entrega")}>
+            <button type="button" role="tab" aria-selected={tab === "entrega"} data-tour="panel-entrega-tab" className={`rounded-lg px-4 text-sm font-extrabold transition-colors ${tab === "entrega" ? "bg-[var(--paper)] text-[var(--ink)] shadow-sm" : "text-[var(--muted)]"}`} onClick={() => setTab("entrega")}>
               Entrega
             </button>
           </div>
@@ -80,9 +85,13 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
         title="Operación del día"
         description="Producción de cocina y entrega por estudiante, en un mismo lugar."
         actions={
-          <div className="flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--paper)] px-2 py-1.5">
-            <span className="hidden text-xs font-bold text-[var(--muted)] sm:inline">Corte {config.bookingCutoff}</span>
-            <div className="flex rounded-lg bg-[oklch(94%_0.012_80)] p-0.5" role="group" aria-label="Modo de corte (demo)">
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" className="btn-quiet px-2.5 text-xs" onClick={() => setTourSignal((value) => value + 1)}>
+              <HelpCircle size={14} /> ¿Cómo funciona?
+            </button>
+            <div className="flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--paper)] px-2 py-1.5" data-tour="panel-cutoff">
+              <span className="hidden text-xs font-bold text-[var(--muted)] sm:inline">Corte {config.bookingCutoff}</span>
+              <div className="flex rounded-lg bg-[oklch(94%_0.012_80)] p-0.5" role="group" aria-label="Modo de corte (demo)">
               {cutoffModes.map((mode) => (
                 <button
                   key={mode.id}
@@ -93,12 +102,13 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
                   {mode.label}
                 </button>
               ))}
+              </div>
             </div>
           </div>
         }
       />
 
-      <div className="surface mb-5 rounded-2xl p-4">
+      <div className="surface mb-5 rounded-2xl p-4" data-tour="panel-date">
         <WeekStrip
           days={week.days}
           weekLabel={week.shortLabel}
@@ -115,12 +125,14 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
         />
       </div>
 
-      <MetricRow>
-        <MetricCard label="Total con almuerzo" value={almuerzosDelDia.length} icon={UtensilsCrossed} tone="coral" />
-        <MetricCard label="Entregados" value={entregadosHoy} icon={Check} tone="success" />
-        <MetricCard label="Funcionarios informados" value={funcionariosHoy(colegioId)} icon={UserRoundCog} tone="neutral" />
-        <MetricCard label="Nómina del colegio" value={pendientesEntrega} icon={Users} tone="neutral" detail="estudiantes" />
-      </MetricRow>
+      <div data-tour="panel-metrics">
+        <MetricRow>
+          <MetricCard label="Total con almuerzo" value={almuerzosDelDia.length} icon={UtensilsCrossed} tone="coral" tip={infoTips.preparacionMetric} />
+          <MetricCard label="Entregados" value={entregadosHoy} icon={Check} tone="success" />
+          <MetricCard label="Funcionarios informados" value={funcionariosHoy(colegioId)} icon={UserRoundCog} tone="neutral" />
+          <MetricCard label="Nómina del colegio" value={pendientesEntrega} icon={Users} tone="neutral" detail="estudiantes" />
+        </MetricRow>
+      </div>
 
       <div className="mt-5">
         {tab === "preparacion" ? (
@@ -141,6 +153,8 @@ export function KitchenDashboard({ colegioId }: { colegioId: ColegioId }) {
           <Check size={17} className="text-[var(--pine-soft)]" /> {toast}
         </div>
       )}
+
+      <Tour steps={cocinaTourSteps} storageKey={`delicor-tour-cocina-${colegioId}-seen`} reopenSignal={tourSignal} />
     </PanelShell>
   );
 }
@@ -240,7 +254,10 @@ function EntregaView({
             </button>
           )}
         </label>
-        <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <p className="mb-2 mt-3 flex items-center gap-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">
+          Filtros <InfoTip text={infoTips.pendingFilterDefault} label="Por qué parte en Pendientes" />
+        </p>
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
           <div className="flex min-h-11 rounded-lg bg-[oklch(94%_0.012_80)] p-1" role="group" aria-label="Filtrar por estado de entrega">
             {(["pendientes", "entregados", "todos"] as StatusFilter[]).map((item) => {
               const labels = { pendientes: "Pendientes", entregados: "Entregados", todos: "Todos" };
