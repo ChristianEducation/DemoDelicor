@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Check, Leaf, Salad, Soup, X } from "lucide-react";
 import { formatCLP, formatLongDate } from "@/lib/format";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 import type { MenuDia } from "@/types";
 
 export function MenuDayModal({
@@ -24,6 +25,8 @@ export function MenuDayModal({
 }) {
   const [platoId, setPlatoId] = useState(initialPlatoId ?? "");
   const [postreId, setPostreId] = useState(initialPostreId ?? "");
+
+  useScrollLock();
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {

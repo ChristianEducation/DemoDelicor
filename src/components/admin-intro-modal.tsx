@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Building2, CircleDollarSign, ShieldCheck, Wallet } from "lucide-react";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 
 const SESSION_KEY = "delicor-admin-intro-seen";
 
@@ -40,11 +41,13 @@ export function AdminIntroModal() {
     setOpen(false);
   };
 
+  useScrollLock(open);
+
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[70] grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="admin-intro-title">
-      <div className="page-enter w-full max-w-md rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
+      <div className="page-enter max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
         <span className="inline-flex items-center gap-2 rounded-full bg-[var(--pine-soft)] px-4 py-2 text-sm font-bold text-[var(--pine-dark)]">
           <ShieldCheck size={16} aria-hidden="true" /> Administración
         </span>

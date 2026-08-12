@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CalendarCheck2, Heart, Salad, Tag } from "lucide-react";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 
 const SESSION_KEY = "delicor-intro-seen";
 
@@ -40,11 +41,13 @@ export function IntroModal() {
     setOpen(false);
   };
 
+  useScrollLock(open);
+
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[70] grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="intro-title">
-      <div className="page-enter w-full max-w-md rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
+      <div className="page-enter max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
         <span className="inline-flex items-center gap-2 rounded-full bg-[var(--coral-soft)] px-4 py-2 text-sm font-bold text-[var(--coral-dark)]">
           <Heart size={16} fill="currentColor" aria-hidden="true" /> Demo comercial
         </span>

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { IntroModal } from "@/components/intro-modal";
 import { PortalShell } from "@/components/portal-shell";
 import { colegios, cursos, estudiantes, flagshipDebtorId } from "@/data/delicor-data";
 import { useDemo } from "@/store/demo-store";
@@ -89,6 +90,7 @@ export default function HomePage() {
           <Sparkles size={14} /> Completar con un estudiante de ejemplo
         </button>
       </div>
+      <IntroModal />
     </PortalShell>
   );
 }

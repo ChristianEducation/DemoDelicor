@@ -7,6 +7,7 @@ import { useAdminFilter } from "@/components/admin-shell";
 import { colegios, cursoLabel, estudiantes } from "@/data/delicor-data";
 import { formatCLP, formatLongDate } from "@/lib/format";
 import { deudasPorEstudiante, type DeudaEstudiante } from "@/lib/operations";
+import { useScrollLock } from "@/lib/use-scroll-lock";
 import { useDemo } from "@/store/demo-store";
 
 export default function AdminPendientesPage() {
@@ -100,6 +101,8 @@ function ComunicarDeudaModal({
   const firstName = studentName.split(" ")[0];
   const message = `Hola, te escribimos de Delicor. ${studentName} registra ${deuda.consumos.length} ${deuda.consumos.length === 1 ? "almuerzo pendiente" : "almuerzos pendientes"} de pago por un total de ${formatCLP(deuda.total)}. Puedes regularizarlo en la app de Delicor. ¡Gracias!`;
 
+  useScrollLock();
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(message);
@@ -112,7 +115,7 @@ function ComunicarDeudaModal({
 
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="comunicar-title">
-      <div className="page-enter w-full max-w-md rounded-2xl bg-[var(--paper)] p-6 shadow-[var(--shadow-lg)]">
+      <div className="page-enter max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-2xl bg-[var(--paper)] p-6 shadow-[var(--shadow-lg)]">
         <div className="flex items-start justify-between gap-3">
           <span className="grid size-10 place-items-center rounded-xl bg-[var(--amber-soft)] text-[var(--amber-dark)]"><MessageSquareText size={19} /></span>
           <button type="button" className="btn-quiet px-2" onClick={onClose} aria-label="Cerrar"><X size={18} /></button>
