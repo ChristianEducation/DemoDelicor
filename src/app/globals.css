@@ -281,7 +281,6 @@ textarea:focus-visible {
   outline: 3px solid var(--coral);
   outline-offset: 3px;
   border-radius: 0.9rem;
-  transition: outline-color 180ms var(--ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
