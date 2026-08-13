@@ -9,16 +9,16 @@
   --line: oklch(89% 0.02 70);
   --line-accent: oklch(82% 0.035 40);
 
-  /* Marca Delicor — coral cálido (isotipo corazón) + verde menta (franja de minuta) */
-  --coral: oklch(62% 0.19 27);
-  --coral-dark: oklch(53% 0.19 25);
-  --coral-soft: oklch(93.5% 0.045 27);
-  --pine: oklch(52% 0.1 165);
-  --pine-dark: oklch(40% 0.09 165);
-  --pine-soft: oklch(92.5% 0.045 165);
-  --amber: oklch(68% 0.15 65);
-  --amber-dark: oklch(52% 0.14 55);
-  --amber-soft: oklch(93% 0.06 75);
+  /* Marca Delicor real: naranjo del isotipo (corazón) + verde lima del wordmark */
+  --coral: oklch(66% 0.19 45);
+  --coral-dark: oklch(56% 0.18 43);
+  --coral-soft: oklch(94% 0.05 55);
+  --pine: oklch(58% 0.17 131);
+  --pine-dark: oklch(45% 0.14 131);
+  --pine-soft: oklch(94% 0.06 126);
+  --amber: oklch(74% 0.15 85);
+  --amber-dark: oklch(55% 0.13 75);
+  --amber-soft: oklch(94% 0.06 85);
   --ink-soft: oklch(93% 0.02 30);
 
   --danger: oklch(55% 0.19 25);
@@ -85,7 +85,7 @@ a:focus-visible,
 select:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid oklch(62% 0.19 27 / 0.45);
+  outline: 3px solid oklch(66% 0.19 45 / 0.45);
   outline-offset: 3px;
 }
 
@@ -114,7 +114,7 @@ textarea:focus-visible {
 .btn-primary {
   color: var(--paper);
   background: var(--coral);
-  box-shadow: 0 6px 18px oklch(62% 0.19 27 / 0.3);
+  box-shadow: 0 6px 18px oklch(66% 0.19 45 / 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -179,7 +179,7 @@ textarea:focus-visible {
 
 .field:focus {
   border-color: var(--coral);
-  box-shadow: 0 0 0 4px oklch(62% 0.19 27 / 0.16);
+  box-shadow: 0 0 0 4px oklch(66% 0.19 45 / 0.16);
   outline: none;
 }
 
