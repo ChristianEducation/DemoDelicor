@@ -48,7 +48,7 @@ export default function ApoderadoPage() {
             <p className="mt-3 text-[var(--muted)]">Selecciona el colegio, el curso y el estudiante para ver la minuta de la semana.</p>
           </div>
 
-          <div className="surface mt-7 grid grid-cols-1 gap-4 rounded-2xl p-5 sm:p-6 lg:mt-0 lg:grid-cols-3 lg:items-end lg:gap-3 lg:p-7">
+          <div className="surface mt-7 grid grid-cols-1 gap-4 rounded-2xl p-5 sm:p-6 lg:mt-0 lg:gap-5 lg:p-7">
             <label className="grid grid-cols-1 gap-1.5">
               <span className="text-xs font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">Colegio</span>
               <select
@@ -93,7 +93,7 @@ export default function ApoderadoPage() {
               </select>
             </label>
 
-            <button type="button" className="btn-primary mt-1 lg:col-span-3 lg:mt-2" disabled={!selectedStudentId} onClick={continueToWeek}>
+            <button type="button" className="btn-primary mt-1 lg:mt-2" disabled={!selectedStudentId} onClick={continueToWeek}>
               Continuar <ArrowRight size={17} />
             </button>
           </div>
