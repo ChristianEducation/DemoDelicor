@@ -308,8 +308,8 @@ function AusenciaModal({ onClose }: { onClose: () => void }) {
   useScrollLock();
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="ausencia-title">
-      <div className="page-enter max-h-[90dvh] w-full max-w-sm overflow-y-auto rounded-2xl bg-[var(--paper)] p-6 text-center shadow-[var(--shadow-lg)]">
+    <div className="fixed inset-0 z-50 grid h-[100svh] w-screen place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="ausencia-title">
+      <div className="page-enter max-h-[90svh] w-full max-w-sm overflow-y-auto rounded-2xl bg-[var(--paper)] p-6 text-center shadow-[var(--shadow-lg)]">
         <span className="mx-auto grid size-11 place-items-center rounded-full bg-[var(--amber-soft)] text-[var(--amber-dark)]">
           <AlertTriangle size={19} />
         </span>

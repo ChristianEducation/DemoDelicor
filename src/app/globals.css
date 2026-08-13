@@ -262,7 +262,12 @@ textarea:focus-visible {
 }
 
 .page-enter {
-  animation: page-in 460ms var(--ease-out) both;
+  /* fill-mode "backwards" (no "forwards"/"both"): evita el flash antes de animar,
+     pero no deja un transform residual al terminar. Un transform "pegado" en un
+     ancestro -aunque sea translateY(0)- reasigna el containing block de los
+     elementos fixed de adentro (los modales) y los desposiciona respecto al
+     viewport real. */
+  animation: page-in 460ms var(--ease-out) backwards;
 }
 
 @keyframes page-in {
