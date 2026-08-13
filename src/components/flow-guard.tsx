@@ -4,7 +4,7 @@ import { ArrowLeft, UserRoundSearch } from "lucide-react";
 export function FlowGuard({
   title = "Primero selecciona un estudiante",
   description = "Necesitamos saber quién utilizará el servicio antes de continuar.",
-  href = "/",
+  href = "/apoderado",
   cta = "Seleccionar estudiante",
 }: {
   title?: string;

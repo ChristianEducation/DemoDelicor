@@ -1,96 +1,75 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ChefHat, ShieldCheck, UsersRound } from "lucide-react";
+import { Brand, DemoBadge } from "@/components/brand";
 import { IntroModal } from "@/components/intro-modal";
-import { PortalShell } from "@/components/portal-shell";
-import { colegios, cursos, estudiantes, flagshipDebtorId } from "@/data/delicor-data";
-import { useDemo } from "@/store/demo-store";
 
-export default function HomePage() {
-  const router = useRouter();
-  const { selectedColegioId, selectedCursoId, selectedStudentId, selectColegio, selectCurso, selectEstudiante } = useDemo();
+const access = [
+  {
+    id: "apoderados",
+    label: "APODERADOS",
+    title: "Reservar almuerzo",
+    icon: UsersRound,
+    href: "/apoderado",
+  },
+  {
+    id: "casino",
+    label: "COCINA",
+    title: "Gestión diaria",
+    icon: ChefHat,
+    href: "/casino",
+  },
+  {
+    id: "admin",
+    label: "ADMINISTRACIÓN",
+    title: "Panel de control",
+    icon: ShieldCheck,
+    href: "/admin",
+  },
+];
 
-  const studentsForCurso = selectedColegioId && selectedCursoId
-    ? estudiantes.filter((item) => item.colegioId === selectedColegioId && item.cursoId === selectedCursoId)
-    : [];
-
-  const continueToWeek = () => {
-    if (!selectedStudentId) return;
-    router.push("/semana");
-  };
-
-  const chooseDemoStudent = () => {
-    const student = estudiantes.find((item) => item.id === flagshipDebtorId)!;
-    selectColegio(student.colegioId);
-    selectCurso(student.cursoId);
-    selectEstudiante(student.id);
-  };
-
+export default function LandingPage() {
   return (
-    <PortalShell step={1}>
-      <div className="mx-auto max-w-lg">
-        <span className="eyebrow">Bienvenido</span>
-        <h1 className="display-font mt-2 text-[1.85rem] font-bold leading-[1.1] tracking-[-0.02em] sm:text-[2.05rem]">
-          Reserva y paga el almuerzo de tu hijo o hija
+    <main id="contenido-principal" className="grid min-h-dvh place-items-center bg-[var(--cream)] px-4 py-10 sm:px-6">
+      <div className="w-full max-w-md">
+        <header className="flex items-center justify-between gap-4">
+          <Brand />
+          <DemoBadge />
+        </header>
+
+        <h1 className="display-font mt-9 text-[1.85rem] font-bold leading-[1.1] tracking-[-0.02em] sm:text-[2.05rem]">
+          Una forma más simple de gestionar los almuerzos de Delicor
         </h1>
-        <p className="mt-3 text-[var(--muted)]">Selecciona el colegio, el curso y el estudiante para ver la minuta de la semana.</p>
+        <p className="mt-3 text-[var(--muted)]">Elige por dónde quieres entrar para recorrer la demo.</p>
 
-        <div className="surface mt-7 grid grid-cols-1 gap-4 rounded-2xl p-5 sm:p-6">
-          <label className="grid grid-cols-1 gap-1.5">
-            <span className="text-xs font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">Colegio</span>
-            <select
-              className="field"
-              value={selectedColegioId ?? ""}
-              onChange={(event) => selectColegio(event.target.value as (typeof colegios)[number]["id"])}
-            >
-              <option value="">Selecciona un colegio</option>
-              {colegios.map((colegio) => (
-                <option key={colegio.id} value={colegio.id}>{colegio.name}</option>
-              ))}
-            </select>
-          </label>
+        <nav className="mt-8 divide-y divide-[var(--line)] border-y border-[var(--line)]" aria-label="Acceso a la plataforma">
+          {access.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="group grid grid-cols-[2.5rem_1fr_1.25rem] items-center gap-4 py-5 text-[var(--ink)] no-underline transition-colors hover:text-[var(--coral)]"
+              >
+                <span className="grid size-10 place-items-center rounded-xl bg-[var(--coral-soft)] text-[var(--coral)] transition-transform duration-200 group-hover:-rotate-3">
+                  <Icon size={19} aria-hidden="true" />
+                </span>
+                <span>
+                  <small className="mb-0.5 block text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-[var(--pine)]">
+                    {item.label}
+                  </small>
+                  <strong className="block text-base font-extrabold">{item.title}</strong>
+                </span>
+                <ArrowRight size={18} className="text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[var(--coral)]" aria-hidden="true" />
+              </Link>
+            );
+          })}
+        </nav>
 
-          <label className="grid grid-cols-1 gap-1.5">
-            <span className="text-xs font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">Curso</span>
-            <select
-              className="field"
-              value={selectedCursoId ?? ""}
-              disabled={!selectedColegioId}
-              onChange={(event) => selectCurso(event.target.value)}
-            >
-              <option value="">{selectedColegioId ? "Selecciona un curso" : "Primero selecciona el colegio"}</option>
-              {cursos.map((curso) => (
-                <option key={curso.id} value={curso.id}>{curso.name}</option>
-              ))}
-            </select>
-          </label>
-
-          <label className="grid grid-cols-1 gap-1.5">
-            <span className="text-xs font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">Estudiante</span>
-            <select
-              className="field"
-              value={selectedStudentId ?? ""}
-              disabled={!selectedCursoId}
-              onChange={(event) => selectEstudiante(event.target.value)}
-            >
-              <option value="">{selectedCursoId ? "Selecciona un estudiante" : "Primero selecciona el curso"}</option>
-              {studentsForCurso.map((student) => (
-                <option key={student.id} value={student.id}>{student.name}</option>
-              ))}
-            </select>
-          </label>
-
-          <button type="button" className="btn-primary mt-1" disabled={!selectedStudentId} onClick={continueToWeek}>
-            Continuar <ArrowRight size={17} />
-          </button>
-        </div>
-
-        <button type="button" className="btn-quiet mt-3 w-full justify-center text-xs" onClick={chooseDemoStudent}>
-          <Sparkles size={14} /> Completar con un estudiante de ejemplo
-        </button>
+        <p className="mt-7 text-center text-xs font-semibold text-[var(--muted)]">
+          Compra · Preparación · Entrega · Control
+        </p>
       </div>
       <IntroModal />
-    </PortalShell>
+    </main>
   );
 }

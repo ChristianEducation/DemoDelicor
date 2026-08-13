@@ -46,10 +46,10 @@ export function AdminIntroModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="admin-intro-title">
-      <div className="page-enter max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--pine-soft)] px-4 py-2 text-sm font-bold text-[var(--pine-dark)]">
-          <ShieldCheck size={16} aria-hidden="true" /> Administración
+    <div className="fixed inset-0 z-[70] grid h-[100svh] w-screen place-items-center bg-[var(--cream)] p-4" role="dialog" aria-modal="true" aria-labelledby="admin-intro-title">
+      <div className="page-enter max-h-[90svh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-[var(--pine-soft)] text-[var(--pine-dark)]">
+          <ShieldCheck size={24} aria-hidden="true" />
         </span>
 
         <h2 id="admin-intro-title" className="display-font mt-5 text-2xl font-extrabold leading-tight text-[var(--ink)] sm:text-3xl">

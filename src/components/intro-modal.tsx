@@ -46,23 +46,17 @@ export function IntroModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] grid place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="intro-title">
-      <div className="page-enter max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--coral-soft)] px-4 py-2 text-sm font-bold text-[var(--coral-dark)]">
-          <Heart size={16} fill="currentColor" aria-hidden="true" /> Demo comercial
+    <div className="fixed inset-0 z-[70] grid h-[100svh] w-screen place-items-center bg-[var(--cream)] p-4" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+      <div className="page-enter max-h-[90svh] w-full max-w-md overflow-y-auto rounded-[1.75rem] bg-[var(--paper)] p-7 text-center shadow-[var(--shadow-lg)] sm:p-9">
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-[var(--coral-soft)] text-[var(--coral)]">
+          <Heart size={24} fill="currentColor" aria-hidden="true" />
         </span>
 
         <h2 id="intro-title" className="display-font mt-5 text-2xl font-extrabold leading-tight text-[var(--ink)] sm:text-3xl">
           Así podría verse el casino de Delicor
         </h2>
 
-        <div className="my-6 flex items-center justify-center gap-3" aria-hidden="true">
-          <span className="h-px w-10 bg-[var(--line)]" />
-          <Heart size={14} className="text-[var(--coral)]" fill="currentColor" />
-          <span className="h-px w-10 bg-[var(--line)]" />
-        </div>
-
-        <div className="grid gap-6 text-left">
+        <div className="grid gap-6 mt-6 text-left">
           {points.map(({ icon: Icon, text }, index) => (
             <div key={index} className="flex items-start gap-4">
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[var(--pine-soft)] text-[var(--pine-dark)]">
