@@ -289,53 +289,55 @@ function EntregaView({
             <p className="mb-0 text-sm text-[var(--muted)]">Prueba otra búsqueda, filtro o fecha.</p>
           </div>
         ) : (
-          <div className="surface overflow-hidden rounded-xl">
-            {filtered.slice(0, 60).map(({ student, pkg }) => (
-              <article key={student.id} className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] px-4 py-3.5 last:border-0 hover:bg-[oklch(98%_0.008_90)] sm:px-5">
-                <div className="flex min-w-0 items-start gap-3">
-                  <span className={`grid size-8 shrink-0 place-items-center rounded-full text-[0.65rem] font-extrabold ${pkg.entregadoAt ? "bg-[var(--pine-soft)] text-[var(--pine-dark)]" : pkg.estado === "pendiente" ? "bg-[var(--amber-soft)] text-[var(--amber-dark)]" : "bg-[var(--coral-soft)] text-[var(--coral-dark)]"}`}>
-                    {initials(student.name)}
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="mb-0 truncate text-sm font-extrabold">{student.name}</h3>
-                    <p className="mb-1.5 mt-0.5 truncate text-xs text-[var(--muted)]">{cursoLabel(colegioId, student.cursoId)}</p>
-                    {pkg.almuerzo ? (
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className={pkg.estado === "pagado" ? "badge-success" : "badge-warning"}>
-                          {pkg.estado === "pagado" ? <><Check size={11} /> Pagado</> : <><Clock3 size={11} /> Pago pendiente</>}
-                        </span>
-                        <span className="text-xs font-semibold text-[var(--ink)]">{pkg.almuerzo.platoNombre} · {pkg.almuerzo.postreNombre}</span>
-                        {pkg.almuerzo.platoVegetariano && <span className="chip-veg"><Leaf size={10} /> Veg</span>}
-                      </div>
+          <>
+            <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-2 xl:grid-cols-3">
+              {filtered.slice(0, 60).map(({ student, pkg }) => (
+                <article key={student.id} className="surface flex flex-wrap items-center justify-between gap-3 rounded-xl px-4 py-3.5 hover:border-[var(--line-accent)] sm:px-5">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className={`grid size-8 shrink-0 place-items-center rounded-full text-[0.65rem] font-extrabold ${pkg.entregadoAt ? "bg-[var(--pine-soft)] text-[var(--pine-dark)]" : pkg.estado === "pendiente" ? "bg-[var(--amber-soft)] text-[var(--amber-dark)]" : "bg-[var(--coral-soft)] text-[var(--coral-dark)]"}`}>
+                      {initials(student.name)}
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="mb-0 truncate text-sm font-extrabold">{student.name}</h3>
+                      <p className="mb-1.5 mt-0.5 truncate text-xs text-[var(--muted)]">{cursoLabel(colegioId, student.cursoId)}</p>
+                      {pkg.almuerzo ? (
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className={pkg.estado === "pagado" ? "badge-success" : "badge-warning"}>
+                            {pkg.estado === "pagado" ? <><Check size={11} /> Pagado</> : <><Clock3 size={11} /> Pago pendiente</>}
+                          </span>
+                          <span className="text-xs font-semibold text-[var(--ink)]">{pkg.almuerzo.platoNombre} · {pkg.almuerzo.postreNombre}</span>
+                          {pkg.almuerzo.platoVegetariano && <span className="chip-veg"><Leaf size={10} /> Veg</span>}
+                        </div>
+                      ) : (
+                        <span className="badge-neutral">Sin pago registrado</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex shrink-0 flex-col items-end gap-2">
+                    {pkg.entregadoAt ? (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[var(--pine-dark)]">
+                        <Check size={13} /> Entregado · {formatSantiagoTime(pkg.entregadoAt)}
+                      </span>
+                    ) : pkg.almuerzo ? (
+                      <button type="button" className="btn-primary min-h-9 px-3.5 text-xs" onClick={() => { confirmDelivery(student.id, date); onDelivered(student.name); }}>
+                        Entregar
+                      </button>
                     ) : (
-                      <span className="badge-neutral">Sin pago registrado</span>
+                      <button type="button" className="btn-secondary min-h-9 px-3.5 text-xs" onClick={() => setSelectingFor(student.id)}>
+                        Elegir y entregar
+                      </button>
                     )}
                   </div>
-                </div>
-
-                <div className="flex shrink-0 flex-col items-end gap-2">
-                  {pkg.entregadoAt ? (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[var(--pine-dark)]">
-                      <Check size={13} /> Entregado · {formatSantiagoTime(pkg.entregadoAt)}
-                    </span>
-                  ) : pkg.almuerzo ? (
-                    <button type="button" className="btn-primary min-h-9 px-3.5 text-xs" onClick={() => { confirmDelivery(student.id, date); onDelivered(student.name); }}>
-                      Entregar
-                    </button>
-                  ) : (
-                    <button type="button" className="btn-secondary min-h-9 px-3.5 text-xs" onClick={() => setSelectingFor(student.id)}>
-                      Elegir y entregar
-                    </button>
-                  )}
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
             {filtered.length > 60 && (
-              <p className="mb-0 border-t border-[var(--line)] px-5 py-3 text-center text-xs font-bold text-[var(--muted)]">
+              <p className="surface mb-0 mt-2.5 rounded-xl px-5 py-3 text-center text-xs font-bold text-[var(--muted)]">
                 Mostrando 60 de {filtered.length} resultados — refina la búsqueda para ver más.
               </p>
             )}
-          </div>
+          </>
         )}
       </section>
 

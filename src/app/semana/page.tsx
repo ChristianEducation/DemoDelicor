@@ -112,7 +112,14 @@ export default function WeekPage() {
             </button>
           </div>
 
-          <div className="surface mt-5 rounded-2xl p-4" data-tour="week-strip">
+          <div className="mt-5 flex items-center gap-2.5 rounded-xl bg-[var(--coral-soft)] px-4 py-3 text-[var(--coral-dark)]">
+            <Clock3 size={17} className="shrink-0" />
+            <p className="mb-0 text-sm font-bold leading-snug">
+              Compra hasta las {config.bookingCutoff} del mismo día. Puedes seguir agregando días y pagarlos todos juntos hasta esa hora.
+            </p>
+          </div>
+
+          <div className="surface mt-3 rounded-2xl p-4" data-tour="week-strip">
             <WeekStrip
               days={week.days}
               weekLabel={week.shortLabel}

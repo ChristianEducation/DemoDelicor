@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, CheckCircle2, CreditCard, Leaf, LoaderCircle, LockKeyhole, PartyPopper } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CreditCard, Leaf, LoaderCircle, LockKeyhole, PartyPopper, ShieldCheck } from "lucide-react";
 import { FlowGuard } from "@/components/flow-guard";
 import { PortalShell } from "@/components/portal-shell";
 import { cursoLabel, estudiantes } from "@/data/delicor-data";
@@ -98,15 +98,20 @@ export default function PaymentPage() {
           )}
           <div className="my-4 h-px bg-[color:var(--paper)]/15" />
           <div className="flex items-end justify-between gap-4"><span className="font-bold">Total</span><strong className="display-font text-2xl font-bold tabular-nums">{formatCLP(preview.total)}</strong></div>
+
+          <p className="mt-4 mb-0 flex items-center gap-2 rounded-lg bg-[var(--pine-soft)] px-3 py-2.5 text-xs font-extrabold text-[var(--pine-dark)]">
+            <ShieldCheck size={16} className="shrink-0" /> Simulación segura — esta demo no realiza ningún cobro real
+          </p>
+
           <button
             type="button"
-            className="mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--paper)] px-4 font-extrabold text-[var(--ink)] transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-85"
+            className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--paper)] px-4 font-extrabold text-[var(--ink)] transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-85"
             disabled={processing}
             onClick={pay}
           >
             {processing ? <><LoaderCircle size={19} className="animate-spin" /> Confirmando pago...</> : <><LockKeyhole size={17} /> Pagar {formatCLP(preview.total)}</>}
           </button>
-          <p className="mt-3 mb-0 flex items-center justify-center gap-2 text-center text-xs text-[color:var(--paper)]/60"><CreditCard size={13} /> Simulación segura · Sin cobro real</p>
+          <p className="mt-3 mb-0 flex items-center justify-center gap-2 text-center text-xs text-[color:var(--paper)]/60"><CreditCard size={13} /> Pago simulado, sin pasarela real</p>
         </aside>
       </div>
     </PortalShell>
