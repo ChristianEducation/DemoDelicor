@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { ChevronDown, Copy, MessageSquareText, X } from "lucide-react";
 import { PanelHeader } from "@/components/panel-ui";
 import { useAdminFilter } from "@/components/admin-shell";
@@ -38,42 +38,63 @@ export default function AdminPendientesPage() {
           <p className="mb-0 text-sm text-[var(--muted)]">No hay almuerzos entregados sin pago registrado para este filtro.</p>
         </div>
       ) : (
-        <div className="surface overflow-hidden rounded-xl">
-          {deudas.map((deuda) => {
-            const student = estudiantes.find((item) => item.id === deuda.studentId)!;
-            const colegio = colegios.find((item) => item.id === student.colegioId)!;
-            const isOpen = expanded === deuda.studentId;
-            return (
-              <div key={deuda.studentId} className="border-b border-[var(--line)] last:border-0">
-                <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
-                  <button type="button" className="flex min-w-0 items-center gap-2 text-left" onClick={() => setExpanded(isOpen ? null : deuda.studentId)}>
-                    <ChevronDown size={16} className={`shrink-0 text-[var(--muted)] transition-transform ${isOpen ? "rotate-180" : ""}`} />
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-extrabold">{student.name}</span>
-                      <span className="block truncate text-xs text-[var(--muted)]">{cursoLabel(student.colegioId, student.cursoId)} · {colegio.shortName}</span>
-                    </span>
-                  </button>
-                  <div className="flex shrink-0 items-center gap-3">
-                    <span className="badge-warning">{deuda.consumos.length} {deuda.consumos.length === 1 ? "consumo pendiente" : "consumos pendientes"}</span>
-                    <strong className="tabular-nums text-sm font-extrabold">{formatCLP(deuda.total)}</strong>
-                    <button type="button" className="btn-secondary min-h-9 px-3 text-xs" onClick={() => setComunicarPara(deuda)}>
-                      <MessageSquareText size={14} /> Comunicar deuda
-                    </button>
-                  </div>
-                </div>
-                {isOpen && (
-                  <div className="grid grid-cols-1 gap-1.5 bg-[oklch(97%_0.008_80)] px-5 py-3.5 sm:pl-11">
-                    {deuda.consumos.map((consumo) => (
-                      <div key={consumo.id} className="flex items-center justify-between gap-3 text-sm">
-                        <span className="font-semibold">{formatLongDate(consumo.date)} — {consumo.platoNombre} · {consumo.postreNombre}</span>
-                        <span className="tabular-nums font-bold text-[var(--muted)]">{formatCLP(consumo.unitPrice)}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <div className="surface overflow-x-auto rounded-xl">
+          <table className="w-full min-w-[760px] border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-[var(--line)] text-left text-[0.65rem] font-extrabold uppercase tracking-[0.06em] text-[var(--muted)]">
+                <th className="px-4 py-3 font-extrabold">Alumno</th>
+                <th className="px-4 py-3 font-extrabold">Curso</th>
+                <th className="px-4 py-3 font-extrabold">Colegio</th>
+                <th className="px-4 py-3 text-right font-extrabold">Consumos</th>
+                <th className="px-4 py-3 text-right font-extrabold">Total adeudado</th>
+                <th className="px-4 py-3 text-right font-extrabold">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {deudas.map((deuda) => {
+                const student = estudiantes.find((item) => item.id === deuda.studentId)!;
+                const colegio = colegios.find((item) => item.id === student.colegioId)!;
+                const isOpen = expanded === deuda.studentId;
+                return (
+                  <Fragment key={deuda.studentId}>
+                    <tr className="border-b border-[var(--line)] last:border-0 hover:bg-[oklch(98%_0.008_90)]">
+                      <td className="px-4 py-3">
+                        <button type="button" className="flex items-center gap-2 font-extrabold text-[var(--ink)]" onClick={() => setExpanded(isOpen ? null : deuda.studentId)}>
+                          <ChevronDown size={15} className={`shrink-0 text-[var(--muted)] transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                          {student.name}
+                        </button>
+                      </td>
+                      <td className="px-4 py-3 text-[var(--muted)]">{cursoLabel(student.colegioId, student.cursoId)}</td>
+                      <td className="px-4 py-3 text-[var(--muted)]">{colegio.shortName}</td>
+                      <td className="px-4 py-3 text-right">
+                        <span className="badge-warning">{deuda.consumos.length}</span>
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums font-extrabold">{formatCLP(deuda.total)}</td>
+                      <td className="px-4 py-3 text-right">
+                        <button type="button" className="btn-secondary min-h-9 px-3 text-xs" onClick={() => setComunicarPara(deuda)}>
+                          <MessageSquareText size={14} /> Comunicar deuda
+                        </button>
+                      </td>
+                    </tr>
+                    {isOpen && (
+                      <tr key={`${deuda.studentId}-detalle`} className="border-b border-[var(--line)] last:border-0">
+                        <td colSpan={6} className="bg-[oklch(97%_0.008_80)] px-5 py-3.5">
+                          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+                            {deuda.consumos.map((consumo) => (
+                              <div key={consumo.id} className="flex items-center justify-between gap-3 text-sm">
+                                <span className="font-semibold">{formatLongDate(consumo.date)} — {consumo.platoNombre} · {consumo.postreNombre}</span>
+                                <span className="shrink-0 tabular-nums font-bold text-[var(--muted)]">{formatCLP(consumo.unitPrice)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
 

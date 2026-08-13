@@ -24,14 +24,14 @@ export default function ConfirmationPage() {
 
   return (
     <PortalShell step={4}>
-      <div className="mx-auto max-w-2xl text-center">
-        <div className="relative mx-auto grid size-16 place-items-center rounded-full bg-[var(--coral)] text-[var(--paper)] shadow-[0_12px_32px_oklch(62%_0.19_27/0.32)]">
-          <Check size={30} strokeWidth={2.4} aria-hidden="true" />
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="relative mx-auto grid size-16 place-items-center rounded-full bg-[var(--coral)] text-[var(--paper)] shadow-[0_12px_32px_oklch(62%_0.19_27/0.32)] lg:size-20">
+          <Check size={30} strokeWidth={2.4} className="lg:size-9" aria-hidden="true" />
           <PartyPopper className="absolute -right-3 -top-1.5 text-[var(--amber)]" size={20} aria-hidden="true" />
         </div>
         <span className="eyebrow mt-5">✓ Pago confirmado</span>
-        <h1 className="display-font mt-2 text-[1.55rem] font-bold leading-none tracking-[-0.02em] sm:text-[1.75rem]">Listo, {student.name.split(" ")[0]}</h1>
-        <p className="mx-auto mt-3 max-w-lg text-[var(--muted)]">
+        <h1 className="display-font mt-2 text-[1.55rem] font-bold leading-none tracking-[-0.02em] sm:text-[1.75rem] lg:text-[2.15rem]">Listo, {student.name.split(" ")[0]}</h1>
+        <p className="mx-auto mt-3 max-w-lg text-[var(--muted)] lg:text-lg">
           El pedido de <strong className="text-[var(--ink)]">{student.name}</strong> quedó pagado y ya está disponible para el equipo de cocina de {cursoLabel(student.colegioId, student.cursoId).slice(0, -1)}.
         </p>
 

@@ -316,17 +316,23 @@ function AusenciaModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 grid h-[100svh] w-screen place-items-center bg-[color:var(--ink)]/50 p-4" role="dialog" aria-modal="true" aria-labelledby="ausencia-title">
-      <div className="page-enter max-h-[90svh] w-full max-w-sm overflow-y-auto rounded-2xl bg-[var(--paper)] p-6 text-center shadow-[var(--shadow-lg)]">
-        <span className="mx-auto grid size-11 place-items-center rounded-full bg-[var(--amber-soft)] text-[var(--amber-dark)]">
-          <AlertTriangle size={19} />
-        </span>
-        <h2 id="ausencia-title" className="display-font mt-4 mb-1 text-lg font-bold">Marcar ausencia</h2>
-        <p className="mb-0 text-sm text-[var(--muted)]">
-          Esta acción llevará al flujo de ausencia e inasistencia, con sus reglas de horario y descuento definidas junto a Delicor. Esta demo solo muestra el punto de entrada.
-        </p>
-        <button type="button" className="btn-primary mt-5 w-full justify-center" onClick={onClose}>
-          Entendido
-        </button>
+      <div className="page-enter max-h-[90svh] w-full max-w-sm overflow-y-auto rounded-2xl bg-[var(--paper)] p-6 text-center shadow-[var(--shadow-lg)] lg:max-w-lg lg:p-7 lg:text-left">
+        <div className="lg:flex lg:items-start lg:gap-4">
+          <span className="mx-auto grid size-11 shrink-0 place-items-center rounded-full bg-[var(--amber-soft)] text-[var(--amber-dark)] lg:mx-0">
+            <AlertTriangle size={19} />
+          </span>
+          <div className="lg:min-w-0 lg:flex-1">
+            <h2 id="ausencia-title" className="display-font mt-4 mb-1 text-lg font-bold lg:mt-0">Marcar ausencia</h2>
+            <p className="mb-0 text-sm text-[var(--muted)]">
+              Esta acción llevará al flujo de ausencia e inasistencia, con sus reglas de horario y descuento definidas junto a Delicor. Esta demo solo muestra el punto de entrada.
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 lg:flex lg:justify-end">
+          <button type="button" className="btn-primary w-full justify-center lg:w-auto" onClick={onClose}>
+            Entendido
+          </button>
+        </div>
       </div>
     </div>
   );

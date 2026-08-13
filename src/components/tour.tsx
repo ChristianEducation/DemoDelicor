@@ -65,14 +65,20 @@ export function Tour({
       setPos(null);
       return;
     }
-    const el = document.querySelector<HTMLElement>(`[data-tour="${step.anchor}"]`);
-    if (!el) {
-      setPos(null);
-      return;
+    // Puede haber más de un elemento con la misma ancla (versión móvil y de
+    // escritorio del mismo nav); se usa el primero que esté realmente visible.
+    const candidates = document.querySelectorAll<HTMLElement>(`[data-tour="${step.anchor}"]`);
+    let el: HTMLElement | null = null;
+    let rect = new DOMRect();
+    for (const candidate of candidates) {
+      const candidateRect = candidate.getBoundingClientRect();
+      if (candidateRect.width > 0 || candidateRect.height > 0) {
+        el = candidate;
+        rect = candidateRect;
+        break;
+      }
     }
-    const rect = el.getBoundingClientRect();
-    const visible = rect.width > 0 || rect.height > 0;
-    if (!visible) {
+    if (!el) {
       setPos(null);
       return;
     }
